@@ -1,4 +1,4 @@
-package com.emdp.marvel
+package com.emdp.marvel.presentation.feature.main.view.ui
 
 import android.os.Bundle
 import com.google.android.material.snackbar.Snackbar
@@ -9,6 +9,7 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import android.view.Menu
 import android.view.MenuItem
+import com.emdp.marvel.R
 import com.emdp.marvel.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
