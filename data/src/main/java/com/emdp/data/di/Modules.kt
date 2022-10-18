@@ -1,9 +1,6 @@
 package com.emdp.data.di
 
-import com.emdp.data.datasource.AndroidDataSource
-import com.emdp.data.datasource.CharactersDataSource
-import com.emdp.data.datasource.CharactersDataSourceImpl
-import com.emdp.data.datasource.ConnectivityDataSource
+import com.emdp.data.datasource.*
 import com.emdp.data.datasource.ConnectivityDataSource.Companion.CONNECTIVITY_DATA_SOURCE_TAG
 import com.emdp.data.repository.Repository
 import com.emdp.data.utils.ConnectivityInterceptor
@@ -24,10 +21,13 @@ val dataModule = module {
     single {
         Repository.apply {
             charactersDataSource = get()
+            paginationDataSource = get()
         }
     }
     single<DomainContract.Data.DataRepository<CharactersBo>> { get<Repository>() }
+    single<DomainContract.Pagination.PaginationRepository> { get<Repository>() }
 
+    factory<PaginationDataSource> { AndroidDataSource(androidContext()) }
     factory<ConnectivityDataSource> { AndroidDataSource(androidContext()) }
     factory<CharactersDataSource> { CharactersDataSourceImpl(get()) }
 

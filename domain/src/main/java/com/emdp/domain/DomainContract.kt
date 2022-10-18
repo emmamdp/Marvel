@@ -8,7 +8,14 @@ interface DomainContract {
 
     interface Data {
         interface DataRepository<out T> {
-            suspend fun fetchCharacters(): Either<FailureBo, T>
+            suspend fun getCharacters(isMore: Boolean): Either<FailureBo, T>
+        }
+    }
+
+    interface Pagination {
+        interface PaginationRepository {
+            fun newPage(page: Int)
+            fun getLastPage(): Int
         }
     }
 

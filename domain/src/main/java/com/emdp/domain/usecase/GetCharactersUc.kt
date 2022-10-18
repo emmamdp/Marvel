@@ -5,10 +5,10 @@ import com.emdp.domain.DomainContract
 import com.emdp.domain.domain.CharactersBo
 import com.emdp.domain.domain.FailureBo
 
-class FetchCharactersUc(
+class GetCharactersUc(
     private val dataRepository: DomainContract.Data.DataRepository<CharactersBo>
 ) : DomainContract.Presentation.UseCase<Any, CharactersBo> {
 
     override suspend fun run(params: Any?): Either<FailureBo, CharactersBo> =
-        dataRepository.fetchCharacters()
+        dataRepository.getCharacters(params as Boolean)
 }

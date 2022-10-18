@@ -37,5 +37,4 @@ dependencies {
     implementation koinlibs.values()
     implementation retrofitlibs.values()
     implementation retrofitGsonLibs.values()
-    implementation "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:0.9.2"
 }

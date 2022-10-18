@@ -8,17 +8,18 @@ import com.emdp.domain.domain.FailureBo
 import kotlinx.coroutines.CoroutineScope
 
 interface CharactersDomainBridge<out S> : BaseDomainBridge {
-    fun fetchCharacters(scope: CoroutineScope, onResult: (Either<FailureBo, S>) -> Unit = {})
+    fun getCharacters(scope: CoroutineScope, isMore: Boolean, onResult: (Either<FailureBo, S>) -> Unit = {})
 }
 
 internal class CharactersDomainBridgeImpl(
-    private val fetchCharactersUc: DomainContract.Presentation.UseCase<Any, CharactersBo>
+    private val getCharactersUc: DomainContract.Presentation.UseCase<Any, CharactersBo>
 ) : CharactersDomainBridge<CharactersBo> {
 
-    override fun fetchCharacters(
+    override fun getCharacters(
         scope: CoroutineScope,
+        isMore: Boolean,
         onResult: (Either<FailureBo, CharactersBo>) -> Unit
     ) {
-        fetchCharactersUc.invoke(scope = scope, onResult = onResult)
+        getCharactersUc.invoke(scope = scope, params= isMore, onResult = onResult)
     }
 }

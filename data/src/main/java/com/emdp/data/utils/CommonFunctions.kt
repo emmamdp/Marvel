@@ -9,12 +9,17 @@ import retrofit2.Response
 
 
 internal suspend fun <S : Response<T>, T, R> retrofitSafeCall(
-    retrofitRequest: suspend () -> S,
+    retrofitRequest: suspend (ts: Int, apkikey: String, hash: String, offset: Int, limit: Int) -> S,
+    ts: Int,
+    apkikey: String,
+    hash: String,
+    offset: Int,
+    limit: Int,
     transform: (T) -> R,
     handlerDataSourceError: HandlerDataSourceError = DefaultHandlerDataSourceError()
 ): Either<FailureBo, R> =
     try {
-        val response = retrofitRequest()
+        val response = retrofitRequest(ts, apkikey, hash, offset, limit)
         if (response.isSuccessful) {
             val body = response.body()
             body?.let {

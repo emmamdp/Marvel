@@ -47,5 +47,5 @@ dependencies {
     implementation koinCoreLib.values()
     implementation koinlibs.values()
     implementation glidelibs.values()
-    kapt androidKaptLibs.values()
+    kapt glideKaptLib.values()
 }

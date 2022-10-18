@@ -1,12 +1,12 @@
 package com.emdp.marvel.presentation.feature.characters.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.emdp.domain.domain.CharactersBo
 import com.emdp.domain.domain.FailureBo
 import com.emdp.domain.feature.CharactersDomainBridge
 import com.emdp.marvel.presentation.base.BaseMvvmViewModel
 import com.emdp.marvel.presentation.base.ScreenState
+import com.emdp.marvel.presentation.domain.ResultVo
 import com.emdp.marvel.presentation.domain.boToVo
 import com.emdp.marvel.presentation.domain.boToVoResultList
 import com.emdp.marvel.presentation.feature.characters.view.state.CharactersState
@@ -15,20 +15,30 @@ class CharactersViewModel(
     bridge: CharactersDomainBridge<CharactersBo>
 ) : BaseMvvmViewModel<CharactersDomainBridge<CharactersBo>, CharactersState>(bridge = bridge) {
 
+    private val charactersList: MutableList<ResultVo> = mutableListOf()
+
     fun onViewCreated() {
         _screenState.value = ScreenState.Loading
-        bridge.fetchCharacters(
+        loadCharactersData(false)
+    }
+
+    fun moreCharacters() {
+        loadCharactersData(true)
+    }
+
+    private fun loadCharactersData(isMore: Boolean) {
+        bridge.getCharacters(
             scope = viewModelScope,
+            isMore = isMore,
             onResult = { it.fold(::handleError, ::handleSuccess) }
         )
     }
 
-    private fun handleSuccess(charactersList: CharactersBo) {
-        val charactersListVo = charactersList.data.results.boToVoResultList()
-        Log.d("characters", charactersListVo.toString())
+    private fun handleSuccess(charactersListBo: CharactersBo) {
+        charactersList.addAll(charactersListBo.data.results.boToVoResultList())
         _screenState.value =
             ScreenState.Render(
-                CharactersState.ShowCharactersList(charactersList = charactersListVo)
+                CharactersState.ShowCharactersList(charactersList = charactersList)
             )
     }
 
