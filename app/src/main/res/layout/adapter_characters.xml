@@ -14,7 +14,7 @@
         <ImageView
             android:id="@+id/iv_character"
             android:layout_width="@dimen/zero_dp"
-            android:layout_height="@dimen/height_180dp"
+            android:layout_height="@dimen/height_150dp"
             android:layout_marginBottom="@dimen/margin_33dp"
             android:contentDescription="@string/characterlist_character_image"
             android:scaleType="fitXY"

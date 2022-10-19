@@ -21,6 +21,14 @@ fun Context.glide(imageLoad: String, placeholder: Int, imageError: Int, imageVie
         .into(imageView)
 }
 
+fun Context.glide(imageLoad: Int, placeholder: Int, imageError: Int, imageView: ImageView) {
+    Glide.with(this)
+        .load(imageLoad)
+        .placeholder(placeholder)
+        .error(imageError)
+        .into(imageView)
+}
+
 fun View.showSnackbar(
     text: String,
     textAction: String,

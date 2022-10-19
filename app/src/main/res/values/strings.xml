@@ -3,4 +3,8 @@
 
     <string name="characterlist_show_character">Show character</string>
     <string name="characterlist_character_image">Character image</string>
+    <string name="character_series">Series</string>
+    <string name="character_comics">Comics</string>
+    <string name="character_events">Events</string>
+    <string name="character_stories">Stories</string>
 </resources>
