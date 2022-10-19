@@ -1,3 +1,19 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
+
+    <dimen name="corner_radius">8dp</dimen>
+    <dimen name="elevation">6dp</dimen>
+
+    <dimen name="zero_dp">0dp</dimen>
+
+    <dimen name="margin_4dp">4dp</dimen>
+    <dimen name="margin_10dp">10dp</dimen>
+    <dimen name="margin_15dp">15dp</dimen>
+    <dimen name="margin_33dp">33dp</dimen>
+
+    <dimen name="width_20dp">20dp</dimen>
+
+    <dimen name="height_40dp">40dp</dimen>
+    <dimen name="height_180dp">180dp</dimen>
+
 </resources>

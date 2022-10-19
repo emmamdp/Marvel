@@ -13,6 +13,7 @@ import com.emdp.domain.feature.CharactersDomainBridge
 import com.emdp.marvel.databinding.FragmentCharactersBinding
 import com.emdp.marvel.presentation.base.BaseMvvmView
 import com.emdp.marvel.presentation.base.ScreenState
+import com.emdp.marvel.presentation.domain.FailureVo
 import com.emdp.marvel.presentation.feature.characters.view.adapter.CharactersAdapter
 import com.emdp.marvel.presentation.feature.characters.view.listener.AdapterScrollListener
 import com.emdp.marvel.presentation.feature.characters.view.state.CharactersState
@@ -29,7 +30,7 @@ class CharactersFragment :
     private val adapterCharactersList = CharactersAdapter(
         onCharacterClick = {
             findNavController().navigate(
-                CharactersFragmentDirections.actionCharactersFragmentToDetailFragment()
+                CharactersFragmentDirections.actionCharactersFragmentToDetailFragment(it)
             )
         }
     )
@@ -48,14 +49,12 @@ class CharactersFragment :
         super.onViewCreated(view, savedInstanceState)
         initModel()
         initData()
+        initView()
     }
 
     override fun onResume() {
         super.onResume()
-//        showHideProgressBar(show = true)
-        isLoading = false
-        showHideBackArrow(show = false)
-        initView()
+        hideBackArrow()
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -68,8 +67,9 @@ class CharactersFragment :
                 }
                 isLoading = false
             }
-            is CharactersState.ShowCharacterDetail -> {}
-            is CharactersState.ShowError -> {}
+            is CharactersState.ShowError -> {
+                showError(renderState.failure)
+            }
         }
     }
 
@@ -77,15 +77,11 @@ class CharactersFragment :
         lifecycleScope.launch {
             viewModel.screenState.collect { screenState ->
                 when (screenState) {
-                    is ScreenState.Idle -> {
-//                        isLoading = false
-                    }
-                    is ScreenState.Loading -> {
-//                        isLoading = true
-                    }
+                    is ScreenState.Idle -> { }
+                    is ScreenState.Loading -> showProgressBar()
                     is ScreenState.Render<CharactersState> -> {
                         processRenderState(screenState.renderState)
-                        showHideProgressBar(show = false)
+                        hideProgressBar()
                     }
                 }
             }
@@ -97,13 +93,13 @@ class CharactersFragment :
             adapter = adapterCharactersList
             val llm = layoutManager as LinearLayoutManager
             addOnScrollListener(object : AdapterScrollListener(llm) {
+
                 override fun isLoading(): Boolean {
                     return isLoading
                 }
 
                 override fun loadMoreItems() {
                     isLoading = true
-                    showHideProgressBar(show = true)
                     viewModel.moreCharacters()
                 }
             })
@@ -111,6 +107,12 @@ class CharactersFragment :
     }
 
     private fun initData() {
-        viewModel.onViewCreated()
+        if (!isOnBackPressed()) viewModel.onViewCreated() else resetOnBackPressed()
+    }
+
+    private fun showError(failure: FailureVo?) {
+        failure?.let {
+            showSnackbarError(it.getErrorMessage())
+        }
     }
 }

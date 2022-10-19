@@ -15,14 +15,14 @@ class CharactersViewModel(
     bridge: CharactersDomainBridge<CharactersBo>
 ) : BaseMvvmViewModel<CharactersDomainBridge<CharactersBo>, CharactersState>(bridge = bridge) {
 
-    private val charactersList: MutableList<ResultVo> = mutableListOf()
+    private var charactersList: MutableList<ResultVo> = mutableListOf()
 
     fun onViewCreated() {
-        _screenState.value = ScreenState.Loading
         loadCharactersData(false)
     }
 
     fun moreCharacters() {
+        _screenState.value = ScreenState.Loading
         loadCharactersData(true)
     }
 

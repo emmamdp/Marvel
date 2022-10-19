@@ -25,7 +25,7 @@ class DetailFragment : BaseFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        showHideBackArrow(show = true)
+        showBackArrow()
         _binding = FragmentDetailBinding.inflate(inflater, container, false)
         return binding.root
     }

@@ -2,14 +2,12 @@ package com.emdp.marvel.presentation.domain
 
 import com.emdp.domain.domain.*
 
-private const val DEFAULT_STRING_VALUE = ""
-
 fun FailureBo.boToVo(): FailureVo = when (this) {
     FailureBo.NoConnection -> FailureVo.NoConnection
     FailureBo.NoData -> FailureVo.NoData
     FailureBo.Unknown -> FailureVo.Unknown
-    is FailureBo.Error -> FailureVo.Error(msg = msg ?: DEFAULT_STRING_VALUE)
-    else -> FailureVo.Error(msg = msg ?: DEFAULT_STRING_VALUE)
+    is FailureBo.Error -> FailureVo.Error(msg = msg)
+    else -> FailureVo.Error(msg = msg)
 }
 
 fun CharactersBo.boToVo() =

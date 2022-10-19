@@ -1,5 +1,8 @@
 package com.emdp.marvel.presentation.domain
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
 
 data class CharactersVo(
     val attributionHTML: String,
@@ -11,13 +14,6 @@ data class CharactersVo(
     val status: String
 )
 
-data class ComicsVo(
-    val available: Int,
-    val collectionURI: String,
-    val items: List<ItemVo>,
-    val returned: Int
-)
-
 data class DataVo(
     val count: Int,
     val limit: Int,
@@ -26,24 +22,7 @@ data class DataVo(
     val total: Int
 )
 
-data class EventsVo(
-    val available: Int,
-    val collectionURI: String,
-    val items: List<ItemVo>,
-    val returned: Int
-)
-
-data class ItemVo(
-    val name: String,
-    val resourceURI: String
-)
-
-data class ItemXXXVo(
-    val name: String,
-    val resourceURI: String,
-    val type: String
-)
-
+@Parcelize
 data class ResultVo(
     val comics: ComicsVo,
     val description: String,
@@ -56,28 +35,61 @@ data class ResultVo(
     val stories: StoriesVo,
     val thumbnail: ThumbnailVo,
     val urls: List<UrlVo>
-)
+): Parcelable
 
+@Parcelize
+data class ComicsVo(
+    val available: Int,
+    val collectionURI: String,
+    val items: List<ItemVo>,
+    val returned: Int
+): Parcelable
+
+@Parcelize
+data class EventsVo(
+    val available: Int,
+    val collectionURI: String,
+    val items: List<ItemVo>,
+    val returned: Int
+): Parcelable
+
+@Parcelize
 data class SeriesVo(
     val available: Int,
     val collectionURI: String,
     val items: List<ItemVo>,
     val returned: Int
-)
+): Parcelable
 
+@Parcelize
 data class StoriesVo(
     val available: Int,
     val collectionURI: String,
     val items: List<ItemXXXVo>,
     val returned: Int
-)
+): Parcelable
 
+@Parcelize
 data class ThumbnailVo(
     val extension: String,
     val path: String
-)
+): Parcelable
 
+@Parcelize
 data class UrlVo(
     val type: String,
     val url: String
-)
+): Parcelable
+
+@Parcelize
+data class ItemVo(
+    val name: String,
+    val resourceURI: String
+): Parcelable
+
+@Parcelize
+data class ItemXXXVo(
+    val name: String,
+    val resourceURI: String,
+    val type: String
+): Parcelable

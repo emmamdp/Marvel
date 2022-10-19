@@ -8,21 +8,23 @@
     <fragment
         android:id="@+id/CharactersFragment"
         android:name="com.emdp.marvel.presentation.feature.characters.view.ui.CharactersFragment"
-        android:label="@string/first_fragment_label"
         tools:layout="@layout/fragment_characters">
 
         <action
             android:id="@+id/action_CharactersFragment_to_DetailFragment"
             app:destination="@id/DetailFragment" />
+
     </fragment>
+
     <fragment
         android:id="@+id/DetailFragment"
         android:name="com.emdp.marvel.presentation.feature.detail.view.ui.DetailFragment"
-        android:label="@string/second_fragment_label"
         tools:layout="@layout/fragment_detail">
 
-        <action
-            android:id="@+id/action_DetailFragment_to_CharactersFragment"
-            app:destination="@id/CharactersFragment" />
+        <argument
+            android:name="character"
+            app:argType="com.emdp.marvel.presentation.domain.ResultVo" />
+
     </fragment>
+
 </navigation>
