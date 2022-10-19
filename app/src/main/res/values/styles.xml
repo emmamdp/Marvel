@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Splash -->
+    <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowBackground">@drawable/splash</item>
+    </style>
+
     <!-- CardView -->
     <style name="CustomCardView" parent="CardView">
         <item name="cardCornerRadius">@dimen/corner_radius_8dp</item>
