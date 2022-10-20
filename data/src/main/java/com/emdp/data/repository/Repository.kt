@@ -22,6 +22,9 @@ object Repository :
         return charactersDataSource.getCharactersResponse(getLastPage())
     }
 
+    override suspend fun getCharacterDetail(id: Int): Either<FailureBo, CharactersBo> =
+        charactersDataSource.getCharacterDetailResponse(id)
+
     override fun newPage(page: Int) {
         paginationDataSource.setPagination(page)
     }

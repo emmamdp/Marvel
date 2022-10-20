@@ -9,6 +9,7 @@ interface DomainContract {
     interface Data {
         interface DataRepository<out T> {
             suspend fun getCharacters(isMore: Boolean): Either<FailureBo, T>
+            suspend fun getCharacterDetail(id: Int): Either<FailureBo, T>
         }
     }
 

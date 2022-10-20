@@ -5,14 +5,14 @@ import com.emdp.domain.DomainContract
 import com.emdp.domain.domain.CharactersBo
 import com.emdp.domain.domain.FailureBo
 
-class GetCharactersUc(
+class GetCharacterDetailUc(
     private val dataRepository: DomainContract.Data.DataRepository<CharactersBo>
 ) : DomainContract.Presentation.UseCase<Any, CharactersBo> {
 
     companion object {
-        const val CHARACTERS_LIST_TAG = "charactersUc"
+        const val CHARACTER_DETAIL_TAG = "characterDetailUc"
     }
 
     override suspend fun run(params: Any?): Either<FailureBo, CharactersBo> =
-        dataRepository.getCharacters(params as Boolean)
+        dataRepository.getCharacterDetail(params as Int)
 }

@@ -38,7 +38,6 @@ val dataModule = module {
         OkHttpClient.Builder()
             .connectTimeout(20L, TimeUnit.SECONDS)
             .readTimeout(30L, TimeUnit.SECONDS)
-            //.addInterceptor { get(named(name = CONNECTIVITY_INTERCEPTOR_TAG)) }
             .addInterceptor(ConnectivityInterceptor(get()))
             .build()
     }

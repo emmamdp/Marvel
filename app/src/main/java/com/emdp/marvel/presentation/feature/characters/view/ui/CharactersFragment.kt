@@ -77,7 +77,7 @@ class CharactersFragment :
         lifecycleScope.launch {
             viewModel.screenState.collect { screenState ->
                 when (screenState) {
-                    is ScreenState.Idle -> { }
+                    is ScreenState.Idle -> {}
                     is ScreenState.Loading -> showProgressBar()
                     is ScreenState.Render<CharactersState> -> {
                         processRenderState(screenState.renderState)

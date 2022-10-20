@@ -10,50 +10,26 @@ fun FailureBo.boToVo(): FailureVo = when (this) {
     else -> FailureVo.Error(msg = msg)
 }
 
-fun CharactersBo.boToVo() =
-    CharactersVo(attributionHTML, attributionText, code, copyright, `data`.boToVo(), etag, status)
+fun List<ResultBo>.boToVoResultList(): List<CharacterVo> = map { it.boToVo() }
 
-fun DataBo.boToVo() =
-    DataVo(count, limit, offset, results.boToVoResultList(), total)
-
-fun List<ResultBo>.boToVoResultList(): List<ResultVo> = map { it.boToVo() }
-
-fun ResultBo.boToVo() = ResultVo(
-    comics.boToVo(),
-    description,
-    events.boToVo(),
+fun ResultBo.boToVo() = CharacterVo(
     id,
-    modified,
     name,
-    resourceURI,
+    description,
+    comics.boToVo(),
+    events.boToVo(),
     series.boToVo(),
     stories.boToVo(),
-    thumbnail.boToVo(),
+    thumbnail,
     urls.boToVoUrlList()
 )
 
-fun ComicsBo.boToVo(): ComicsVo =
-    ComicsVo(available, collectionURI, items.boToVoItemList(), returned)
+fun ElementsBo.boToVo(): ElementsVo = ElementsVo(available, items?.boToVoItemList())
 
-fun EventsBo.boToVo(): EventsVo =
-    EventsVo(available, collectionURI, items.boToVoItemList(), returned)
+fun List<ItemBo>.boToVoItemList(): List<ItemVo> = map { it.boToVo() }
 
-fun SeriesBo.boToVo(): SeriesVo =
-    SeriesVo(available, collectionURI, items.boToVoItemList(), returned)
-
-fun StoriesBo.boToVo(): StoriesVo =
-    StoriesVo(available, collectionURI, items.boToVoItemXXXList(), returned)
-
-fun ThumbnailBo.boToVo(): ThumbnailVo = ThumbnailVo(extension, path)
+fun ItemBo.boToVo(): ItemVo = ItemVo(name, resourceURI, type)
 
 fun List<UrlBo>.boToVoUrlList(): List<UrlVo> = map { it.boToVo() }
 
 fun UrlBo.boToVo(): UrlVo = UrlVo(type, url)
-
-fun List<ItemBo>.boToVoItemList(): List<ItemVo> = map { it.boToVo() }
-
-fun ItemBo.boToVo(): ItemVo = ItemVo(name, resourceURI)
-
-fun List<ItemXXXBo>.boToVoItemXXXList(): List<ItemXXXVo> = map { it.boToVo() }
-
-fun ItemXXXBo.boToVo(): ItemXXXVo = ItemXXXVo(name, resourceURI, type)

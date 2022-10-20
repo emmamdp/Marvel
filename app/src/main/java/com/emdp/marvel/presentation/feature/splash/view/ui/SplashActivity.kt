@@ -3,6 +3,8 @@ package com.emdp.marvel.presentation.feature.splash.view.ui
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.emdp.domain.base.BaseDomainBridge
@@ -18,6 +20,10 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class SplashActivity :
     AppCompatActivity(),
     BaseMvvmView<SplashViewModel, BaseDomainBridge.None, SplashState> {
+
+    companion object {
+        private const val DELAY_MILLIS: Long = 1000
+    }
 
     override val viewModel: SplashViewModel by viewModel()
 
@@ -49,7 +55,13 @@ class SplashActivity :
     }
 
     private fun startMainActivity() {
-        startActivity(Intent(this, MainActivity::class.java))
-        finish()
+        // This is a little delay to be able to see the splash in fast mobiles
+        Handler(Looper.getMainLooper()).postDelayed(
+            {
+                startActivity(Intent(this, MainActivity::class.java))
+                finish()
+            },
+            DELAY_MILLIS
+        )
     }
 }
