@@ -7,12 +7,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.RecyclerView
 import com.emdp.marvel.R
 import com.emdp.marvel.databinding.FragmentDetailBinding
+import com.emdp.marvel.presentation.domain.CharacterVo
 import com.emdp.marvel.presentation.domain.ItemVo
-import com.emdp.marvel.presentation.domain.ResultVo
 import com.emdp.marvel.presentation.feature.common.BaseFragment
 import com.emdp.marvel.presentation.feature.detail.adapter.ItemXXXAdapter
 import com.emdp.marvel.presentation.feature.detail.adapter.ItemsAdapter
@@ -23,14 +22,14 @@ import com.emdp.marvel.presentation.utils.isShow
 
 class DetailFragment : BaseFragment() {
 
-    private lateinit var character: ResultVo
+    private lateinit var character: CharacterVo
 
     private val adapterSeries = ItemsAdapter(CharacterEnum.SERIE)
     private val adapterComics = ItemsAdapter(CharacterEnum.COMIC)
     private val adapterEvents = ItemsAdapter(CharacterEnum.EVENT)
     private val adapterStories = ItemXXXAdapter()
 
-    private val args: DetailFragmentArgs by navArgs()
+    //    private val args: DetailFragmentArgs by navArgs()
     private val binding: FragmentDetailBinding by lazy {
         FragmentDetailBinding.inflate(layoutInflater)
     }
@@ -52,34 +51,41 @@ class DetailFragment : BaseFragment() {
     }
 
     private fun initData() {
-        character = args.character
+//        character = args.character
     }
 
     @SuppressLint("NotifyDataSetChanged")
     private fun initView() {
         loadCharacter()
         with(binding) {
-            loadData(
-                character.comics.available,
-                character.comics.items,
-                adapterComics,
-                rvComics,
-                tvComics
-            )
-            loadData(
-                character.series.available,
-                character.series.items,
-                adapterSeries,
-                rvSeries,
-                tvSeries
-            )
-            loadData(
-                character.events.available,
-                character.events.items,
-                adapterEvents,
-                rvEvents,
-                tvEvents
-            )
+            character.comics.items?.let {
+                loadData(
+                    character.comics.available,
+                    it,
+                    adapterComics,
+                    rvComics,
+                    tvComics
+                )
+            }
+            character.series.items?.let {
+                loadData(
+                    character.series.available,
+                    it,
+                    adapterSeries,
+                    rvSeries,
+                    tvSeries
+                )
+            }
+            character.events.items?.let {
+                loadData(
+                    character.events.available,
+                    it,
+                    adapterEvents,
+                    rvEvents,
+                    tvEvents
+                )
+            }
+
         }
         loadStories()
     }
@@ -87,7 +93,7 @@ class DetailFragment : BaseFragment() {
     private fun loadCharacter() {
         with(binding) {
             requireContext().glide(
-                imageLoad = character.thumbnail.path + "." + character.thumbnail.extension,
+                imageLoad = character.thumbnail,
                 placeholder = R.drawable.ic_marvel,
                 imageError = R.drawable.ic_marvel,
                 imageView = ivCharacter
@@ -124,7 +130,7 @@ class DetailFragment : BaseFragment() {
     @SuppressLint("NotifyDataSetChanged")
     private fun loadStories() {
         with(binding) {
-            if (character.stories.available > 0 && character.stories.items.isNotEmpty()) {
+            if (character.stories.available > 0 && !character.stories.items.isNullOrEmpty()) {
                 adapterStories.apply {
                     rvStories.adapter = this
                     submitList(character.stories.items)

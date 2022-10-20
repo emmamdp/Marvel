@@ -29,9 +29,9 @@ class CharactersFragment :
     private var isLoading = false
     private val adapterCharactersList = CharactersAdapter(
         onCharacterClick = {
-            findNavController().navigate(
+           /* findNavController().navigate(
                 CharactersFragmentDirections.actionCharactersFragmentToDetailFragment(it)
-            )
+            )*/
         }
     )
 

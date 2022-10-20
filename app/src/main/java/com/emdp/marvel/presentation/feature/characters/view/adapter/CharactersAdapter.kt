@@ -11,12 +11,12 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.emdp.marvel.R
 import com.emdp.marvel.databinding.AdapterCharactersBinding
-import com.emdp.marvel.presentation.domain.ResultVo
+import com.emdp.marvel.presentation.domain.CharacterVo
 import com.emdp.marvel.presentation.utils.glide
 
 class CharactersAdapter(
-    private val onCharacterClick: (ResultVo) -> Unit
-) : ListAdapter<ResultVo, CharactersAdapter.CharactersViewHolder>(CharactersDiffCallback) {
+    private val onCharacterClick: (CharacterVo) -> Unit
+) : ListAdapter<CharacterVo, CharactersAdapter.CharactersViewHolder>(CharactersDiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CharactersViewHolder =
         CharactersViewHolder(
@@ -31,11 +31,11 @@ class CharactersAdapter(
         holder.bind(getItem(position), onCharacterClick)
     }
 
-    object CharactersDiffCallback : DiffUtil.ItemCallback<ResultVo>() {
-        override fun areItemsTheSame(oldItem: ResultVo, newItem: ResultVo): Boolean =
+    object CharactersDiffCallback : DiffUtil.ItemCallback<CharacterVo>() {
+        override fun areItemsTheSame(oldItem: CharacterVo, newItem: CharacterVo): Boolean =
             oldItem.id == newItem.id
 
-        override fun areContentsTheSame(oldItem: ResultVo, newItem: ResultVo): Boolean =
+        override fun areContentsTheSame(oldItem: CharacterVo, newItem: CharacterVo): Boolean =
             oldItem == newItem
     }
 
@@ -47,9 +47,9 @@ class CharactersAdapter(
         private val rootCardView: CardView = binding.root
         private val context: Context = binding.root.context
 
-        fun bind(character: ResultVo, onCharacterClick: (ResultVo) -> Unit) {
+        fun bind(character: CharacterVo, onCharacterClick: (CharacterVo) -> Unit) {
             context.glide(
-                imageLoad = character.thumbnail.path + "." + character.thumbnail.extension,
+                imageLoad = character.thumbnail,
                 placeholder = R.drawable.ic_marvel,
                 imageError = R.drawable.ic_marvel,
                 imageView = ivCharacter

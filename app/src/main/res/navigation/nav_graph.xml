@@ -21,9 +21,9 @@
         android:name="com.emdp.marvel.presentation.feature.detail.view.ui.DetailFragment"
         tools:layout="@layout/fragment_detail">
 
-        <argument
+        <!--<argument
             android:name="character"
-            app:argType="com.emdp.marvel.presentation.domain.ResultVo" />
+            app:argType="com.emdp.marvel.presentation.domain.CharacterVo" />-->
 
     </fragment>
 

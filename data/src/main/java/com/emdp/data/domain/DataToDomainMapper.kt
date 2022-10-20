@@ -13,50 +13,32 @@ fun FailureDto.dtoToBo(): FailureBo = when (this) {
     is FailureDto.Error -> FailureBo.Error(msg = msg ?: DEFAULT_STRING_VALUE)
 }
 
-fun CharactersDto.dtoToBo() =
-    CharactersBo(attributionHTML, attributionText, code, copyright, `data`.dtoToBo(), etag, status)
+fun CharactersDto.dtoToBo() = CharactersBo(code, `data`.dtoToBo(), status)
 
-fun DataDto.dtoToBo() =
-    DataBo(count, limit, offset, results.dtoToBoResultList(), total)
+fun DataDto.dtoToBo() = DataBo(results.dtoToBoResultList())
 
 fun List<ResultDto>.dtoToBoResultList(): List<ResultBo> = map { it.dtoToBo() }
 
 fun ResultDto.dtoToBo() = ResultBo(
-    comics.dtoToBo(),
-    description,
-    events.dtoToBo(),
     id,
-    modified,
     name,
-    resourceURI,
+    description,
+    comics.dtoToBo(),
+    events.dtoToBo(),
     series.dtoToBo(),
     stories.dtoToBo(),
-    thumbnail.dtoToBo(),
+    thumbnail.dtoToStr(),
     urls.dtoToBoUrlList()
 )
 
-fun ComicsDto.dtoToBo(): ComicsBo =
-    ComicsBo(available, collectionURI, items.dtoToBoItemList(), returned)
+fun ElementsDto.dtoToBo(): ElementsBo = ElementsBo(available, items?.dtoToBoItemList())
 
-fun EventsDto.dtoToBo(): EventsBo =
-    EventsBo(available, collectionURI, items.dtoToBoItemList(), returned)
+fun ThumbnailDto.dtoToStr(): String = "${this.path}.${this.extension}"
 
-fun SeriesDto.dtoToBo(): SeriesBo =
-    SeriesBo(available, collectionURI, items.dtoToBoItemList(), returned)
+fun List<ItemDto>.dtoToBoItemList(): List<ItemBo> = map { it.dtoToBo() }
 
-fun StoriesDto.dtoToBo(): StoriesBo =
-    StoriesBo(available, collectionURI, items.dtoToBoItemXXXList(), returned)
-
-fun ThumbnailDto.dtoToBo(): ThumbnailBo = ThumbnailBo(extension, path)
+fun ItemDto.dtoToBo(): ItemBo = ItemBo(name, resourceURI, type)
 
 fun List<UrlDto>.dtoToBoUrlList(): List<UrlBo> = map { it.dtoToBo() }
 
 fun UrlDto.dtoToBo(): UrlBo = UrlBo(type, url)
-
-fun List<ItemDto>.dtoToBoItemList(): List<ItemBo> = map { it.dtoToBo() }
-
-fun ItemDto.dtoToBo(): ItemBo = ItemBo(name, resourceURI)
-
-fun List<ItemXXXDto>.dtoToBoItemXXXList(): List<ItemXXXBo> = map { it.dtoToBo() }
-
-fun ItemXXXDto.dtoToBo(): ItemXXXBo = ItemXXXBo(name, resourceURI, type)
