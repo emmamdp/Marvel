@@ -24,7 +24,8 @@ import org.koin.dsl.module
 import org.koin.test.KoinTest
 import org.koin.test.inject
 
-class RepositoryTest : KoinTest {
+class CharactersListRepositoryTest : KoinTest {
+
     private val repository: DomainContract.Data.DataRepository<CharactersBo> by inject()
     private lateinit var mockCharactersDataSource: CharactersDataSource
     private lateinit var mockPaginationDataSource: PaginationDataSource
@@ -99,55 +100,22 @@ class RepositoryTest : KoinTest {
         }
 
     private fun getDummyCharactersBo() = CharactersBo(
-        attributionHTML = "<a href=\"http://marvel.com\">Data provided by Marvel. © 2022 MARVEL</a>",
-        attributionText = "Data provided by Marvel. © 2022 MARVEL",
         code = 200,
-        copyright = "© 2022 MARVEL",
         `data` = DataBo(
-            count = 20,
-            limit = 20,
-            offset = 0,
             results = listOf(
                 ResultBo(
-                    comics = ComicsBo(
-                        available = 0,
-                        collectionURI = "",
-                        items = listOf(),
-                        returned = 0
-                    ),
-                    description = "",
-                    events = EventsBo(
-                        available = 0,
-                        collectionURI = "",
-                        items = listOf(),
-                        returned = 0
-                    ),
                     id = 1011334,
-                    modified = "2014-04-29T14:18:17-0400",
                     name = "3-D Man",
-                    resourceURI = "http://gateway.marvel.com/v1/public/characters/1011334",
-                    series = SeriesBo(
-                        available = 0,
-                        collectionURI = "",
-                        items = listOf(),
-                        returned = 0
-                    ),
-                    stories = StoriesBo(
-                        available = 0,
-                        collectionURI = "",
-                        items = listOf(),
-                        returned = 0
-                    ),
-                    thumbnail = ThumbnailBo(
-                        extension = "http://i.annihil.us/u/prod/marvel/i/mg/c/e0/535fecbbb9784",
-                        path = "jpg"
-                    ),
+                    description = "",
+                    comics = ElementsBo(available = 0, items = listOf()),
+                    events = ElementsBo(available = 0, items = listOf()),
+                    series = ElementsBo(available = 0, items = listOf()),
+                    stories = ElementsBo(available = 0, items = listOf()),
+                    thumbnail = "http://i.annihil.us/u/prod/marvel/i/mg/c/e0/535fecbbb9784.jpg",
                     urls = listOf()
                 )
-            ),
-            total = 1562
+            )
         ),
-        etag = "6a2801b21b1ba5e4401d2299d9869f8bd4052a2f",
         status = "Ok"
     )
 }
