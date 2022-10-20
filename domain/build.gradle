@@ -15,6 +15,4 @@ dependencies {
     implementation kotlinStdLib.values()
     api arrowLib.values()
     kapt kaptArrowLib.values()
-    // Test
-    testImplementation testLibs.values()
 }
