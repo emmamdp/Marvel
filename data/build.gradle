@@ -37,4 +37,6 @@ dependencies {
     implementation koinlibs.values()
     implementation retrofitlibs.values()
     implementation retrofitGsonLibs.values()
+    // Test
+    implementation testLibs.values()
 }
