@@ -7,29 +7,35 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.RecyclerView
+import com.emdp.domain.domain.CharactersBo
+import com.emdp.domain.feature.CharactersDomainBridge
 import com.emdp.marvel.R
 import com.emdp.marvel.databinding.FragmentDetailBinding
+import com.emdp.marvel.presentation.base.BaseMvvmView
+import com.emdp.marvel.presentation.base.ScreenState
 import com.emdp.marvel.presentation.domain.CharacterVo
+import com.emdp.marvel.presentation.domain.FailureVo
 import com.emdp.marvel.presentation.domain.ItemVo
 import com.emdp.marvel.presentation.feature.common.BaseFragment
-import com.emdp.marvel.presentation.feature.detail.adapter.ItemXXXAdapter
 import com.emdp.marvel.presentation.feature.detail.adapter.ItemsAdapter
+import com.emdp.marvel.presentation.feature.detail.view.state.DetailState
+import com.emdp.marvel.presentation.feature.detail.viewmodel.DetailViewModel
 import com.emdp.marvel.presentation.utils.CharacterEnum
 import com.emdp.marvel.presentation.utils.glide
 import com.emdp.marvel.presentation.utils.isShow
+import kotlinx.coroutines.launch
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
-class DetailFragment : BaseFragment() {
+class DetailFragment :
+    BaseFragment(),
+    BaseMvvmView<DetailViewModel, CharactersDomainBridge<CharactersBo>, DetailState> {
 
-    private lateinit var character: CharacterVo
-
-    private val adapterSeries = ItemsAdapter(CharacterEnum.SERIE)
-    private val adapterComics = ItemsAdapter(CharacterEnum.COMIC)
-    private val adapterEvents = ItemsAdapter(CharacterEnum.EVENT)
-    private val adapterStories = ItemXXXAdapter()
-
-    //    private val args: DetailFragmentArgs by navArgs()
+    private val args: DetailFragmentArgs by navArgs()
+    override val viewModel: DetailViewModel by viewModel()
     private val binding: FragmentDetailBinding by lazy {
         FragmentDetailBinding.inflate(layoutInflater)
     }
@@ -46,23 +52,49 @@ class DetailFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initModel()
         initData()
-        initView()
+    }
+
+    override fun processRenderState(renderState: DetailState) {
+        when (renderState) {
+            is DetailState.ShowCharacterDetail -> {
+                loadView(renderState.character)
+            }
+            is DetailState.ShowError -> {
+                showError(renderState.failure)
+            }
+        }
+    }
+
+    override fun initModel() {
+        lifecycleScope.launch {
+            viewModel.screenState.collect { screenState ->
+                when (screenState) {
+                    is ScreenState.Idle -> {}
+                    is ScreenState.Loading -> showProgressBar()
+                    is ScreenState.Render<DetailState> -> {
+                        processRenderState(screenState.renderState)
+                        hideProgressBar()
+                    }
+                }
+            }
+        }
     }
 
     private fun initData() {
-//        character = args.character
+        viewModel.onViewCreated(args.characterId)
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    private fun initView() {
-        loadCharacter()
+    private fun loadView(character: CharacterVo) {
+        loadCharacter(character)
         with(binding) {
             character.comics.items?.let {
                 loadData(
                     character.comics.available,
                     it,
-                    adapterComics,
+                    ItemsAdapter(CharacterEnum.COMIC),
                     rvComics,
                     tvComics
                 )
@@ -71,7 +103,7 @@ class DetailFragment : BaseFragment() {
                 loadData(
                     character.series.available,
                     it,
-                    adapterSeries,
+                    ItemsAdapter(CharacterEnum.SERIE),
                     rvSeries,
                     tvSeries
                 )
@@ -80,18 +112,28 @@ class DetailFragment : BaseFragment() {
                 loadData(
                     character.events.available,
                     it,
-                    adapterEvents,
+                    ItemsAdapter(CharacterEnum.EVENT),
                     rvEvents,
                     tvEvents
                 )
             }
-
+            character.stories.items?.let {
+                loadData(
+                    character.stories.available,
+                    it,
+                    ItemsAdapter(CharacterEnum.STORIES),
+                    rvStories,
+                    tvStories
+                )
+            }
         }
-        loadStories()
     }
 
-    private fun loadCharacter() {
+    private fun loadCharacter(character: CharacterVo) {
         with(binding) {
+            ivCharacter.isShow(show = true)
+            clCharacterDetail.isShow(show = true)
+
             requireContext().glide(
                 imageLoad = character.thumbnail,
                 placeholder = R.drawable.ic_marvel,
@@ -127,19 +169,9 @@ class DetailFragment : BaseFragment() {
         }
     }
 
-    @SuppressLint("NotifyDataSetChanged")
-    private fun loadStories() {
-        with(binding) {
-            if (character.stories.available > 0 && !character.stories.items.isNullOrEmpty()) {
-                adapterStories.apply {
-                    rvStories.adapter = this
-                    submitList(character.stories.items)
-                    notifyDataSetChanged()
-                }
-            } else {
-                tvStories.isShow(show = false)
-                rvStories.isShow(show = false)
-            }
+    private fun showError(failure: FailureVo?) {
+        failure?.let {
+            showSnackbarError(it.getErrorMessage())
         }
     }
 }

@@ -8,11 +8,21 @@ import com.emdp.domain.domain.FailureBo
 import kotlinx.coroutines.CoroutineScope
 
 interface CharactersDomainBridge<out S> : BaseDomainBridge {
-    fun getCharacters(scope: CoroutineScope, isMore: Boolean, onResult: (Either<FailureBo, S>) -> Unit = {})
+    fun getCharacters(
+        scope: CoroutineScope,
+        isMore: Boolean,
+        onResult: (Either<FailureBo, S>) -> Unit = {}
+    )
+    fun getCharacterDetail(
+        scope: CoroutineScope,
+        id: Int,
+        onResult: (Either<FailureBo, S>) -> Unit = {}
+    )
 }
 
 internal class CharactersDomainBridgeImpl(
-    private val getCharactersUc: DomainContract.Presentation.UseCase<Any, CharactersBo>
+    private val getCharactersUc: DomainContract.Presentation.UseCase<Any, CharactersBo>,
+    private val getCharacterDetailUc: DomainContract.Presentation.UseCase<Any, CharactersBo>
 ) : CharactersDomainBridge<CharactersBo> {
 
     override fun getCharacters(
@@ -20,6 +30,14 @@ internal class CharactersDomainBridgeImpl(
         isMore: Boolean,
         onResult: (Either<FailureBo, CharactersBo>) -> Unit
     ) {
-        getCharactersUc.invoke(scope = scope, params= isMore, onResult = onResult)
+        getCharactersUc.invoke(scope = scope, params = isMore, onResult = onResult)
+    }
+
+    override fun getCharacterDetail(
+        scope: CoroutineScope,
+        id: Int,
+        onResult: (Either<FailureBo, CharactersBo>) -> Unit
+    ) {
+        getCharacterDetailUc.invoke(scope = scope, params = id, onResult = onResult)
     }
 }

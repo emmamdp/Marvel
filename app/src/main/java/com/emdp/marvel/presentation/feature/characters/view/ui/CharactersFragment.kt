@@ -29,9 +29,9 @@ class CharactersFragment :
     private var isLoading = false
     private val adapterCharactersList = CharactersAdapter(
         onCharacterClick = {
-           /* findNavController().navigate(
+            findNavController().navigate(
                 CharactersFragmentDirections.actionCharactersFragmentToDetailFragment(it)
-            )*/
+            )
         }
     )
 
@@ -77,7 +77,7 @@ class CharactersFragment :
         lifecycleScope.launch {
             viewModel.screenState.collect { screenState ->
                 when (screenState) {
-                    is ScreenState.Idle -> { }
+                    is ScreenState.Idle -> {}
                     is ScreenState.Loading -> showProgressBar()
                     is ScreenState.Render<CharactersState> -> {
                         processRenderState(screenState.renderState)

@@ -15,7 +15,7 @@ import com.emdp.marvel.presentation.domain.CharacterVo
 import com.emdp.marvel.presentation.utils.glide
 
 class CharactersAdapter(
-    private val onCharacterClick: (CharacterVo) -> Unit
+    private val onCharacterClick: (Int) -> Unit
 ) : ListAdapter<CharacterVo, CharactersAdapter.CharactersViewHolder>(CharactersDiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CharactersViewHolder =
@@ -47,7 +47,7 @@ class CharactersAdapter(
         private val rootCardView: CardView = binding.root
         private val context: Context = binding.root.context
 
-        fun bind(character: CharacterVo, onCharacterClick: (CharacterVo) -> Unit) {
+        fun bind(character: CharacterVo, onCharacterClick: (Int) -> Unit) {
             context.glide(
                 imageLoad = character.thumbnail,
                 placeholder = R.drawable.ic_marvel,
@@ -55,7 +55,7 @@ class CharactersAdapter(
                 imageView = ivCharacter
             )
             tvCharacterName.text = character.name
-            rootCardView.setOnClickListener { onCharacterClick.invoke(character) }
+            rootCardView.setOnClickListener { onCharacterClick.invoke(character.id) }
         }
     }
 }

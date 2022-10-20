@@ -54,6 +54,7 @@ class ItemsAdapter(
                 CharacterEnum.COMIC -> R.drawable.comic
                 CharacterEnum.SERIE -> R.drawable.camera
                 CharacterEnum.EVENT -> R.drawable.event
+                CharacterEnum.STORIES -> R.drawable.storie
             }
             context.glide(image, R.drawable.ic_marvel, R.drawable.ic_marvel, ivBubble)
             tvItem.text = item.name

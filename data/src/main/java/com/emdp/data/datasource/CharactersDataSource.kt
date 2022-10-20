@@ -6,4 +6,5 @@ import com.emdp.domain.domain.FailureBo
 
 interface CharactersDataSource {
     suspend fun getCharactersResponse(offset: Int): Either<FailureBo, CharactersBo>
+    suspend fun getCharacterDetailResponse(id: Int): Either<FailureBo, CharactersBo>
 }
