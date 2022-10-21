@@ -2,10 +2,25 @@
  
 ![alt text](docs/images/marvel-comics.png)
 
-**Marvel** es una app que muestra un listado de personajes y su detalle.
+**Marvel** es una app que muestra un listado de personajes y su detalle. Esta aplicación contiene lo siguiente:
+
+* **Retrofit ->**
+Para la conexión con las apis.
+
+* **Shared Preference ->**
+Para el guardado de datos en caché.
+
+* **Koin ->**
+Como inyector de dependencias.
+
+* **Glide ->**
+Para mostrar las imágenes al usuario.
+
+* **Test unitarios ->**
+Para el testeo de la funcionalidad de la app.
 
 ## Arquitectura y organización del proyecto
-La arquitectura utilizada en este proyecto es MVVM, siguiendo los patrones SOLID.
+La arquitectura utilizada en este proyecto es **MVVM**, siguiendo los patrones **SOLID**.
 
 El proyecto se ha estructurado en capas, siendo las siguientes:
 
