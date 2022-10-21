@@ -45,6 +45,10 @@ open class BaseFragment : Fragment() {
 
     fun isOnBackPressed(): Boolean = parentActivity.getOnBackPressedState()
 
+    fun setOnBackPressed() {
+        parentActivity.setOnBackPressed()
+    }
+
     fun resetOnBackPressed() {
         parentActivity.resetOnBackPressedState()
     }

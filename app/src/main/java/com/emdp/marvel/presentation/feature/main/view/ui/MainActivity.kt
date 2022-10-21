@@ -31,14 +31,18 @@ class MainActivity : AppCompatActivity() {
 
     fun getOnBackPressedState(): Boolean = isOnBackPressed
 
+    fun setOnBackPressed() {
+        isOnBackPressed = true
+        onBackPressedDispatcher.onBackPressed()
+    }
+
     fun resetOnBackPressedState() {
         isOnBackPressed = false
     }
 
     private fun initListeners() {
         binding.ivBackArrow.setOnClickListener {
-            isOnBackPressed = true
-            onBackPressedDispatcher.onBackPressed()
+            setOnBackPressed()
         }
     }
 }
